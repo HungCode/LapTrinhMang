@@ -304,11 +304,14 @@ public class UsersOnline extends javax.swing.JFrame {
                                 String reply = chatToServer.getMassage();
                                 if (reply.equals("/replyInviteYes")) {
                                     chatToServer.sendMessage("/yes");
-                                    DeThi dethi = new DeThi(chatToServer);
+                                    dethi = new DeThi(chatToServer);
                                     dethi.setVisible(true);
                                 } else if (reply.equals("/replyInviteNo")) {
                                     JOptionPane.showMessageDialog(rootPane, "Lời mời bị từ chối !");
                                 }
+                            case "/responsePoint":
+                                String kq = chatToServer.getMassage();
+                                dethi.setResult(kq);
                         }
 
                     }
@@ -387,6 +390,7 @@ public class UsersOnline extends javax.swing.JFrame {
 
     String listUO;
     public static HashMap<String[], String> questions = new HashMap<>();
+    public DeThi dethi;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -30,7 +30,10 @@ public class ServerChat extends Thread {
     String message = null;
     BufferedReader is = null;
     PrintWriter os = null;
+    BufferedReader is2 = null;
+    PrintWriter os2 = null;
     public Socket clientSocket = null;
+    double diemC1, diemC2;
 
     public ServerChat(Socket clientSocket) throws ClassNotFoundException, SQLException {
         this.clientSocket = clientSocket;
@@ -154,8 +157,6 @@ public class ServerChat extends Thread {
     public void invitePlay() throws IOException {
         String user2_name = is.readLine();
         ServerChat chatWithClient2 = Server.threads.get(user2_name);
-        BufferedReader is2 = null;
-        PrintWriter os2 = null;
         try {
             is2 = new BufferedReader(new InputStreamReader(chatWithClient2.clientSocket.getInputStream()));
             os2 = new PrintWriter(chatWithClient2.clientSocket.getOutputStream());
@@ -178,6 +179,63 @@ public class ServerChat extends Thread {
             os.println("replyInviteNo");
             os.flush();
         }
+        diemC1 = diemC2 = 0;
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String ms1, ms2;
+                int kt = 0;
+                while (true) {
+                    try {
+                        ms1 = is.readLine();
+                        if (ms1.equals("/reponsePoint")) {
+                            diemC1 = Integer.parseInt(is.readLine());
+                            kt++;
+                        }
+
+                    } catch (Exception e) {
+                    }
+                    try {
+                        ms2 = is2.readLine();
+                        if (ms2.equals("/reponsePoint")) {
+                            diemC2 = Integer.parseInt(is2.readLine());
+                            kt++;
+                        }
+                    } catch (Exception e) {
+                    }
+                    if (kt == 2) {
+                        if (diemC1 < diemC2) {
+                            os.println("/responeResult");
+                            os.flush();
+                            os.println("/thua");
+                            os.flush();
+                            os2.println("/responeResult");
+                            os2.flush();
+                            os2.println("/thang");
+                            os2.flush();
+                        } else if (diemC1 == diemC2) {
+                            os.println("/responeResult");
+                            os.flush();
+                            os.println("/hoa");
+                            os2.flush();
+                            os2.println("/responeResult");
+                            os.flush();
+                            os2.println("/hoa");
+                            os2.flush();
+                        } else if (diemC1 > diemC2) {
+                            os.println("/responeResult");
+                            os.flush();
+                            os.println("/thang");
+                            os.flush();
+                            os2.println("/responeResult");
+                            os2.flush();
+                            os2.println("/thua");
+                            os2.flush();
+                        }
+                    }
+                }
+            }
+        });
         System.out.println("da gui");
 
     }
