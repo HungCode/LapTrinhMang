@@ -168,17 +168,21 @@ public class ServerChat extends Thread {
         os2.flush();
         //xac nhan
         System.out.println("Server xac nhan gui loi moi den :" + chatWithClient2.username);
+        //nhan phan hoi reply = yes || no
         String reply = is2.readLine();
+        //gui ve Clien 1
+//        System.out.println("");
         os.println("/replyInvitation");
         os.flush();
         System.out.println("Tra loi client 1");
         if (reply.equals("/yes")) {
-            os.println("/replyInviteYes");
+            os.println("/getReplyInviteYes");
             os.flush();
         } else if (reply.equals("/no")) {
-            os.println("replyInviteNo");
+            os.println("/getReplyInviteNo");
             os.flush();
         }
+        System.out.println("da gui");
         diemC1 = diemC2 = 0;
         Thread t = new Thread(new Runnable() {
             @Override
@@ -236,6 +240,7 @@ public class ServerChat extends Thread {
                 }
             }
         });
+        t.start();
         System.out.println("da gui");
 
     }

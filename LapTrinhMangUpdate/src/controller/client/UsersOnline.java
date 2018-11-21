@@ -300,18 +300,24 @@ public class UsersOnline extends javax.swing.JFrame {
                                 break;
                             case "/responseListQuestions":
                                 responseListQuestion();
+                                break;
                             case "/replyInvitation":
                                 String reply = chatToServer.getMassage();
                                 if (reply.equals("/replyInviteYes")) {
                                     chatToServer.sendMessage("/yes");
-                                    dethi = new DeThi(chatToServer);
+                                    DeThi dethi = new DeThi(chatToServer);
                                     dethi.setVisible(true);
-                                } else if (reply.equals("/replyInviteNo")) {
+                                } else if (reply.equals("/getReplyInviteNo")) {
                                     JOptionPane.showMessageDialog(rootPane, "Lời mời bị từ chối !");
+                                } else if (reply.equals("/getReplyInviteYes")) {
+                                    DeThi dethi = new DeThi(chatToServer);
+                                    dethi.setVisible(true);
                                 }
+                                break;
                             case "/responsePoint":
                                 String kq = chatToServer.getMassage();
                                 dethi.setResult(kq);
+                                break;
                         }
 
                     }
